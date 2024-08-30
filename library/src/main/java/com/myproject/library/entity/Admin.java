@@ -8,22 +8,19 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class User {
+@NoArgsConstructor
+public class Admin {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // set the id attribute to increment from 0
     private int id;
 
-    @OneToOne
+    @OneToOne // represents a one to one relationship
     @JoinColumn(name = "account_id")
     private Account account;
-
-
 
     private String name;
     private String address;
     private String phone;
-
 }

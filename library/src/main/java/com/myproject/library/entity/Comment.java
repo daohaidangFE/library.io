@@ -11,21 +11,20 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Account {
+public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
-    private String username;
-    private String password;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @Column(name = "decryptedpasword")
-    private String decryptedpassword;
+    @ManyToOne
+    private Book book;
 
-    private String email;
-    private String role;
+    private Integer star;
+    private String content;
     private Date created_at;
     private Date updated_at;
-
-
 }
