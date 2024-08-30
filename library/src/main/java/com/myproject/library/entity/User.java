@@ -16,13 +16,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToOne
-    @JoinColumn(name = "account_id")
-    private Account account;
+    private String username;
+    private String password;
 
+    @Column(name = "decryptedpasword")
+    private String decryptedpassword;
 
-
-    private String name;
+    private String email;
     private String address;
     private String phone;
 

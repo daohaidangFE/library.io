@@ -5,27 +5,18 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Account {
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String username;
-    private String password;
+    @Column(unique = true, nullable = false)
+    private String roleName;
 
-    @Column(name = "decryptedpasword")
-    private String decryptedpassword;
-
-    private String email;
-    private String role;
-    private Date created_at;
-    private Date updated_at;
-
-
+    public static String ADMIN = "ADMIN";
+    public static String USER = "USER";
 }
