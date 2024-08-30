@@ -1,6 +1,5 @@
 package com.myproject.library.entity;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,18 +9,21 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
-
+public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToOne
-    @JoinColumn(name = "account_id")
-    private Account account;
+    private String username;
+    private String password;
 
-    private String name;
-    private String address;
-    private String phone;
+    @Column(name = "decryptedpasword")
+    private String decryptedpassword;
+
+    private String email;
+    private String role;
+    private String created_at;
+    private String updated_at;
+
 
 }
