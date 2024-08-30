@@ -31,11 +31,6 @@ public class Book {
     private String date_publication;
     private String description;
 
-    @Lob
-    @Column(name = "image", length = Integer.MAX_VALUE, nullable = true)
-    @ToString.Exclude
-    private byte[] image;
-
     @Transient  //no saved to database
     private MultipartFile fileData;
 
