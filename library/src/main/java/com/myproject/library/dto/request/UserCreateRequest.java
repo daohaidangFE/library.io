@@ -10,6 +10,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,5 +30,7 @@ public class UserCreateRequest {
     private String email;
     private String address;
     private String phone;
+
+    private LocalDate Dob;
 
 }

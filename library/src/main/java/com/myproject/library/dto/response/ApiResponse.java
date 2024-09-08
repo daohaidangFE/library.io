@@ -1,10 +1,11 @@
-package com.myproject.library.response;
+package com.myproject.library.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+// include all custom fields
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

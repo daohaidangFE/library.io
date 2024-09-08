@@ -1,32 +1,25 @@
-package com.myproject.library.entity;
+package com.myproject.library.dto.request;
 
-
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
-@Entity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@NoArgsConstructor
+public class UserGetRequest {
     private int id;
 
     private String username;
-    private String password;
-
-    @Column(name = "decryptedpasword")
-    private String decryptedpassword;
-
     private String email;
     private String address;
     private String phone;
     private LocalDate Dob;
-
 }
