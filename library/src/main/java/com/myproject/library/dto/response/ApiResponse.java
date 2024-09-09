@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiResponse <T> {
     private int code = 1000;

@@ -6,31 +6,34 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserCreateRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    int id;
 
-    @Size(min = 8, message = "USER_INVALID")
-    private String username;
-    private String password;
+    @Size(min = 8, message = "USERNAME_INVALID")
+    String username;
+
+    @Size(min = 8, message = "PASSWORD_INVALID")
+    String password;
 
     @Column(name = "decryptedpasword")
-    private String decryptedpassword;
+    String decryptedpassword;
 
-    private String email;
-    private String address;
-    private String phone;
+    String email;
+    String address;
+    String phone;
 
-    private LocalDate Dob;
+    LocalDate Dob;
 
 }

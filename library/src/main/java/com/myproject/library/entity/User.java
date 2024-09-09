@@ -2,9 +2,8 @@ package com.myproject.library.entity;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
 
@@ -12,21 +11,23 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String username;
-    private String password;
+    String username;
+    String password;
 
     @Column(name = "decryptedpasword")
-    private String decryptedpassword;
+    String decryptedpassword;
 
-    private String email;
-    private String address;
-    private String phone;
-    private LocalDate Dob;
+    String email;
+    String address;
+    String phone;
+    LocalDate Dob;
 
 }

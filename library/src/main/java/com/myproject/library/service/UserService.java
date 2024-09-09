@@ -18,19 +18,23 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+
+
     public User createUser(UserCreateRequest userCreateRequest) {
-        User user = new User();
 
         if(userRepository.existsByUsername(userCreateRequest.getUsername())) {
             throw new AppException(ErrorCode.USER_EXISTED);
         }
 
-        user.setUsername(userCreateRequest.getUsername());
-        user.setPassword(userCreateRequest.getPassword());
-        user.setEmail(userCreateRequest.getEmail());
-        user.setAddress(userCreateRequest.getAddress());
-        user.setPhone(userCreateRequest.getPhone());
-        user.setDob(LocalDate.now());
+        User user = User.builder()
+                .username(userCreateRequest.getUsername())
+                .password(userCreateRequest.getPassword())
+                .email(userCreateRequest.getEmail())
+                .address(userCreateRequest.getAddress())
+                .phone(userCreateRequest.getPhone())
+                .Dob(LocalDate.now())
+                .build();
+
         return userRepository.save(user);
     }
 
@@ -40,13 +44,15 @@ public class UserService {
 
         List<UserGetRequest> userGetRequests = new ArrayList<>();
         for(User user : users) {
-            UserGetRequest userGetRequest = new UserGetRequest();
-            userGetRequest.setId(user.getId());
-            userGetRequest.setUsername(user.getUsername());
-            userGetRequest.setEmail(user.getEmail());
-            userGetRequest.setAddress(user.getAddress());
-            userGetRequest.setPhone(user.getPhone());
-            userGetRequest.setDob(user.getDob());
+            UserGetRequest userGetRequest = UserGetRequest.builder()
+                    .id(user.getId())
+                    .username(user.getUsername())
+                    .email(user.getEmail())
+                    .address(user.getAddress())
+                    .phone(user.getPhone())
+                    .Dob(user.getDob())
+                    .build();
+
             userGetRequests.add(userGetRequest);
         }
         return userGetRequests;
