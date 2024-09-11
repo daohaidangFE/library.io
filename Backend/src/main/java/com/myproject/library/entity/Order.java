@@ -17,7 +17,7 @@ import java.util.Date;
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -27,7 +27,7 @@ public class Order {
     @ToString.Exclude
     private Collection<OrderDetail> orderDetailList;
 
-    private Integer total_cost;
+    private Long total_cost;
 
     private String customer_name;
     private String address;

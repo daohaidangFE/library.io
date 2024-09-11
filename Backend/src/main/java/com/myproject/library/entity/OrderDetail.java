@@ -1,5 +1,6 @@
 package com.myproject.library.entity;
 
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,20 +12,19 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Comment {
+public class OrderDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    @ManyToOne
+    @JoinColumn(name = "book_id")
     private Book book;
-
-    private Integer star;
-    private String content;
+    private Long total_cost;
+    private Long number;
     private Date created_at;
     private Date updated_at;
 }

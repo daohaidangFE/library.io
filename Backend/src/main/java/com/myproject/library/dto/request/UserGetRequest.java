@@ -1,6 +1,5 @@
 package com.myproject.library.dto.request;
 
-
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,24 +15,12 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserCreateRequest {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+public class UserGetRequest {
+    Long id;
 
-    @Size(min = 8, message = "USERNAME_INVALID")
     String username;
-
-    @Size(min = 8, message = "PASSWORD_INVALID")
-    String password;
-
-    @Column(name = "decryptedpasword")
-    String decryptedpassword;
-
     String email;
     String address;
     String phone;
-
     LocalDate Dob;
-
 }

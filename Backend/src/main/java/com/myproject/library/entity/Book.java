@@ -17,7 +17,7 @@ import java.util.Date;
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "author_id")
@@ -46,9 +46,9 @@ public class Book {
     private Collection<Comment> commentList;
 
     private float price;
-    private int number_page;
-    private int number_sold;
-    private int number_in_stock; //number of books in stock
+    private Long number_page;
+    private Long number_sold;
+    private Long number_in_stock; //number of books in stock
     private Date created_at;
     private Date updated_at;
 }

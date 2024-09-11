@@ -3,6 +3,7 @@ package com.myproject.library.controller;
 
 import com.myproject.library.dto.request.UserCreateRequest;
 import com.myproject.library.dto.request.UserGetRequest;
+import com.myproject.library.dto.request.UserUpdateRequest;
 import com.myproject.library.entity.User;
 import com.myproject.library.dto.response.ApiResponse;
 import com.myproject.library.service.UserService;
@@ -33,5 +34,12 @@ public class UserController {
         List<UserGetRequest> userGetRequests = userService.getAllUsers();
         return ResponseEntity.ok(userGetRequests);
 
+    }
+
+    @PutMapping("/{userId}")
+    public ApiResponse<User> updateUser(@PathVariable Long userId,@RequestBody @Valid UserUpdateRequest userUpdateRequest) {
+        ApiResponse apiResponse = new ApiResponse<>();
+        apiResponse.setResult(userService.updateUser(userId, userUpdateRequest));
+        return apiResponse;
     }
 }

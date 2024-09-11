@@ -2,9 +2,12 @@ package com.myproject.library.service;
 
 import com.myproject.library.dto.request.UserCreateRequest;
 import com.myproject.library.dto.request.UserGetRequest;
+import com.myproject.library.dto.request.UserUpdateRequest;
 import com.myproject.library.entity.User;
 import com.myproject.library.exception.AppException;
 import com.myproject.library.exception.ErrorCode;
+import com.myproject.library.mapper.UserMapper;
+import com.myproject.library.mapper.UserMapperImpl;
 import com.myproject.library.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +21,8 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-
+    @Autowired
+    private UserMapper userMapper;
 
     public User createUser(UserCreateRequest userCreateRequest) {
 
@@ -26,18 +30,30 @@ public class UserService {
             throw new AppException(ErrorCode.USER_EXISTED);
         }
 
-        User user = User.builder()
-                .username(userCreateRequest.getUsername())
-                .password(userCreateRequest.getPassword())
-                .email(userCreateRequest.getEmail())
-                .address(userCreateRequest.getAddress())
-                .phone(userCreateRequest.getPhone())
-                .Dob(LocalDate.now())
-                .build();
+        User user = userMapper.toUser(userCreateRequest);
+        user.setDob(userCreateRequest.getDob());
+
 
         return userRepository.save(user);
     }
 
+    public User getUser(Long id) {
+        User user = userRepository.findById(id).orElse(null);
+        if(user == null) {
+            throw new AppException(ErrorCode.USER_EXISTED);
+        } else {
+            return user;
+        }
+    }
+
+    public User updateUser(Long id, UserUpdateRequest userUpdateRequest) {
+        User user = getUser(id);
+
+        userMapper.updateUser(user, userUpdateRequest);
+
+        return userRepository.save(user);
+
+    }
 
     public List<UserGetRequest> getAllUsers() {
         List<User> users = userRepository.findAll();
