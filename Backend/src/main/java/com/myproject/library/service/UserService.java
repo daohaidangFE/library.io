@@ -1,28 +1,28 @@
 package com.myproject.library.service;
 
 import com.myproject.library.dto.request.UserCreateRequest;
-import com.myproject.library.dto.request.UserGetRequest;
 import com.myproject.library.dto.request.UserUpdateRequest;
+import com.myproject.library.dto.response.UserResponse;
 import com.myproject.library.entity.User;
 import com.myproject.library.exception.AppException;
 import com.myproject.library.exception.ErrorCode;
 import com.myproject.library.mapper.UserMapper;
-import com.myproject.library.mapper.UserMapperImpl;
 import com.myproject.library.repository.UserRepository;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserService {
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private UserMapper userMapper;
+    UserRepository userRepository;
+    UserMapper userMapper;
 
     public User createUser(UserCreateRequest userCreateRequest) {
 
@@ -37,30 +37,37 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User getUser(Long id) {
+    public UserResponse getUser(Long id) {
         User user = userRepository.findById(id).orElse(null);
         if(user == null) {
-            throw new AppException(ErrorCode.USER_EXISTED);
+            throw new AppException(ErrorCode.USER_NOT_EXISTED);
         } else {
-            return user;
+            UserResponse userResponse = userMapper.toUserResponse(user);
+            userResponse.setDob(user.getDob());
+            return userResponse;
         }
     }
 
-    public User updateUser(Long id, UserUpdateRequest userUpdateRequest) {
-        User user = getUser(id);
+    public UserResponse updateUser(Long id, UserUpdateRequest userUpdateRequest) {
+        User user = userRepository.findById(id).orElse(null);
 
-        userMapper.updateUser(user, userUpdateRequest);
-
-        return userRepository.save(user);
+        if(user == null) {
+            throw new AppException(ErrorCode.USER_NOT_EXISTED);
+        } else {
+            userMapper.updateUser(user, userUpdateRequest);
+            UserResponse userResponse =  userMapper.toUserResponse(userRepository.save(user));
+            userResponse.setDob(user.getDob());
+            return userResponse;
+        }
 
     }
 
-    public List<UserGetRequest> getAllUsers() {
+    public List<UserResponse> getAllUsers() {
         List<User> users = userRepository.findAll();
 
-        List<UserGetRequest> userGetRequests = new ArrayList<>();
+        List<UserResponse> userResponses = new ArrayList<>();
         for(User user : users) {
-            UserGetRequest userGetRequest = UserGetRequest.builder()
+            UserResponse userResponse = UserResponse.builder()
                     .id(user.getId())
                     .username(user.getUsername())
                     .email(user.getEmail())
@@ -69,10 +76,17 @@ public class UserService {
                     .Dob(user.getDob())
                     .build();
 
-            userGetRequests.add(userGetRequest);
+            userResponses.add(userResponse);
         }
-        return userGetRequests;
+        return userResponses;
     }
 
+    public void deleteUser(Long id) {
+        if(!userRepository.existsById(id)) {
+            throw new AppException(ErrorCode.USER_NOT_EXISTED);
+        } else {
+            userRepository.deleteById(id);
+        }
+    }
 
 }
