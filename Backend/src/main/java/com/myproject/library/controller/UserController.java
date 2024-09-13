@@ -1,7 +1,7 @@
 package com.myproject.library.controller;
 
 
-import com.myproject.library.dto.request.UserCreateRequest;
+import com.myproject.library.dto.request.UserCreationRequest;
 import com.myproject.library.dto.request.UserUpdateRequest;
 import com.myproject.library.dto.response.UserResponse;
 import com.myproject.library.entity.User;
@@ -11,8 +11,6 @@ import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,9 +23,9 @@ public class UserController {
     UserService userService;
 
     @PostMapping("")
-    public ApiResponse<User> createUser(@RequestBody @Valid UserCreateRequest userCreateRequest) {
+    public ApiResponse<User> createUser(@RequestBody @Valid UserCreationRequest userCreationRequest) {
         ApiResponse apiResponse = new ApiResponse<>();
-        apiResponse.setResult(userService.createUser(userCreateRequest));
+        apiResponse.setResult(userService.createUser(userCreationRequest));
 
         return apiResponse;
     }

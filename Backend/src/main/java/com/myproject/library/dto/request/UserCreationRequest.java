@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserCreateRequest {
+public class UserCreationRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
@@ -34,6 +34,7 @@ public class UserCreateRequest {
     String address;
     String phone;
 
-    LocalDate Dob = LocalDate.now();
+    @Builder.Default
+    LocalDate dob = LocalDate.now();
 
 }

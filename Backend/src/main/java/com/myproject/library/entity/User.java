@@ -29,7 +29,7 @@ public class User {
     String address;
     String phone;
 
-    LocalDate Dob;
+    LocalDate dob;
 
 
 

@@ -1,10 +1,8 @@
 package com.myproject.library.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 // include all custom fields
 @Data
@@ -12,8 +10,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ApiResponse <T> {
-    private int code = 1000;
-    private String message;
-    private T result;
+    @Builder.Default
+    int code = 1000;
+    String message;
+    T result;
 }

@@ -1,6 +1,6 @@
 package com.myproject.library.service;
 
-import com.myproject.library.dto.request.UserCreateRequest;
+import com.myproject.library.dto.request.UserCreationRequest;
 import com.myproject.library.dto.request.UserUpdateRequest;
 import com.myproject.library.dto.response.UserResponse;
 import com.myproject.library.entity.User;
@@ -11,7 +11,8 @@ import com.myproject.library.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,15 +25,15 @@ public class UserService {
     UserRepository userRepository;
     UserMapper userMapper;
 
-    public User createUser(UserCreateRequest userCreateRequest) {
+    public User createUser(UserCreationRequest userCreationRequest) {
 
-        if(userRepository.existsByUsername(userCreateRequest.getUsername())) {
+        if(userRepository.existsByUsername(userCreationRequest.getUsername())) {
             throw new AppException(ErrorCode.USER_EXISTED);
         }
 
-        User user = userMapper.toUser(userCreateRequest);
-        user.setDob(userCreateRequest.getDob());
-
+        User user = userMapper.toUser(userCreationRequest);
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        user.setPassword(passwordEncoder.encode(userCreationRequest.getPassword()));
 
         return userRepository.save(user);
     }
@@ -56,7 +57,6 @@ public class UserService {
         } else {
             userMapper.updateUser(user, userUpdateRequest);
             UserResponse userResponse =  userMapper.toUserResponse(userRepository.save(user));
-            userResponse.setDob(user.getDob());
             return userResponse;
         }
 
@@ -73,7 +73,7 @@ public class UserService {
                     .email(user.getEmail())
                     .address(user.getAddress())
                     .phone(user.getPhone())
-                    .Dob(user.getDob())
+                    .dob(user.getDob())
                     .build();
 
             userResponses.add(userResponse);
