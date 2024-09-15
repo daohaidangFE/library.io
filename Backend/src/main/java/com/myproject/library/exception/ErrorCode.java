@@ -14,6 +14,7 @@ public enum ErrorCode {
     USER_NOT_EXISTED(1003, "user not existed"),
     USERNAME_INVALID(1004, "user must be at least 8 character"),
     PASSWORD_INVALID(1005, "password must be at least 8 character"),
+    UNAUTHORIZED_EXCEPTION(1006, "Unauthorized Exception"),
     ;
 
     private int code;
