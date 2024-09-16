@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: library
+  datasource:
+    url: jdbc:mysql://localhost:3306/library
+    username: root
+    password: 123456
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    generate-ddl: true
+    hibernate:
+      ddl-auto: none
+
+server:
+  port: 8081
+
+jwt:
+  signerKey: "589QvVjxe86xPPTxL73e9yx3EZq6YXGS9qBnFPP+64tNi+zCZB5IzjZgwWldqMUE"
