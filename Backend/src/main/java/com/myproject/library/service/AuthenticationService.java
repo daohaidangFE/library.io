@@ -4,6 +4,7 @@ import com.myproject.library.dto.request.AuthenticationRequest;
 import com.myproject.library.dto.request.IntrospectRequest;
 import com.myproject.library.dto.response.AuthenticationResponse;
 import com.myproject.library.dto.response.IntrospectResponse;
+import com.myproject.library.entity.User;
 import com.myproject.library.exception.AppException;
 import com.myproject.library.exception.ErrorCode;
 import com.myproject.library.repository.UserRepository;
@@ -74,17 +75,17 @@ public class AuthenticationService {
                 .build();
     }
 
-    private String generateToken(String username) {
+    private String generateToken(User user) {
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS256); // tao header
 
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder() // lam body cho payload
-                .subject(username)   // đại diện cho user đăng nhập
+                .subject(user.getUsername())   // đại diện cho user đăng nhập
                 .issuer("libraryonline.com")  // xác định cái token được issue từ ai
                 .issueTime(new Date())
                 .expirationTime(new Date(
                         Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
                 )) // xác định thời hạn tồn tại
-                .claim("userId", "hong noi =))")
+                .claim("scope", "lấy role, mà chưa làm =))")
                 .build();
 
         Payload payload = new Payload(jwtClaimsSet.toJSONObject()); //tao payload o dang JSONObj
