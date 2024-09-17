@@ -39,12 +39,13 @@ public class AuthenticationService {
     @Value("${jwt.signerKey}")
     protected String SIGNER_KEY;
 
+    // tạo token nếu đăng nhập thành công
     public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest) {
         var user = userRepository.findByUsername(authenticationRequest.getUsername()).orElseThrow(() ->
                 new AppException(ErrorCode.USER_NOT_EXISTED));
 
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
-        boolean authenticated = passwordEncoder.matches(authenticationRequest.getPassword(), user.getPassword());
+        boolean authenticated = passwordEncoder.matches(authenticationRequest.getPassword(), user.getPassword()); //kiem tra xem dang nhap dung k?
         if(!authenticated) {
             throw new AppException(ErrorCode.UNCATEGORIZED_EXCEPTION);
         }
@@ -56,16 +57,17 @@ public class AuthenticationService {
                 .build();
     }
 
+    //xác minh tính hợp lệ của token
     public IntrospectResponse introspect(IntrospectRequest introspectRequest) throws JOSEException, ParseException {
         var token = introspectRequest.getToken();
 
-        JWSVerifier verifier = new MACVerifier(SIGNER_KEY.getBytes());
+        JWSVerifier verifier = new MACVerifier(SIGNER_KEY.getBytes()); // xác minh chữ kí của token và khoá bí mật
 
-        SignedJWT signedJWT = SignedJWT.parse(token);
+        SignedJWT signedJWT = SignedJWT.parse(token); // phân tích token thành signedJWT
 
-        Date expityTime = signedJWT.getJWTClaimsSet().getExpirationTime();
+        Date expityTime = signedJWT.getJWTClaimsSet().getExpirationTime(); // thời gian hiệu lực của token
 
-        var verified =  signedJWT.verify(verifier);
+        var verified =  signedJWT.verify(verifier); //xác minh chữ kí
 
         return IntrospectResponse.builder()
                 .valid(verified && expityTime.after(new Date()))
@@ -82,7 +84,7 @@ public class AuthenticationService {
                 .expirationTime(new Date(
                         Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
                 )) // xác định thời hạn tồn tại
-                .claim("testClaim", "testClaimValue")
+                .claim("userId", "hong noi =))")
                 .build();
 
         Payload payload = new Payload(jwtClaimsSet.toJSONObject()); //tao payload o dang JSONObj
@@ -91,6 +93,7 @@ public class AuthenticationService {
 
         try {
             jwsObject.sign(new MACSigner(SIGNER_KEY.getBytes())); // ki 2 loai kia va ca KEY
+
             return jwsObject.serialize();
         } catch (JOSEException e) {
             log.error("Cannot create token", e);
