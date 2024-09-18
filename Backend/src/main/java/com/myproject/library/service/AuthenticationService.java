@@ -2,6 +2,7 @@ package com.myproject.library.service;
 
 import com.myproject.library.dto.request.AuthenticationRequest;
 import com.myproject.library.dto.request.IntrospectRequest;
+import com.myproject.library.dto.request.UserCreationRequest;
 import com.myproject.library.dto.response.AuthenticationResponse;
 import com.myproject.library.dto.response.IntrospectResponse;
 import com.myproject.library.entity.User;
@@ -50,7 +51,7 @@ public class AuthenticationService {
         if(!authenticated) {
             throw new AppException(ErrorCode.UNCATEGORIZED_EXCEPTION);
         }
-        var token = generateToken(authenticationRequest.getUsername());
+        var token = generateToken(user);
 
         return AuthenticationResponse.builder()
                 .token(token)

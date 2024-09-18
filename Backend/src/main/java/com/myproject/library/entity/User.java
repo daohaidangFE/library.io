@@ -6,6 +6,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Data
@@ -31,6 +32,6 @@ public class User {
 
     LocalDate dob;
 
-
-
+    @ManyToMany
+    Set<Role> roles;
 }
