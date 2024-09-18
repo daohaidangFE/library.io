@@ -3,10 +3,12 @@ package com.myproject.library.service;
 import com.myproject.library.dto.request.UserCreationRequest;
 import com.myproject.library.dto.request.UserUpdateRequest;
 import com.myproject.library.dto.response.UserResponse;
+import com.myproject.library.entity.Role;
 import com.myproject.library.entity.User;
 import com.myproject.library.exception.AppException;
 import com.myproject.library.exception.ErrorCode;
 import com.myproject.library.mapper.UserMapper;
+import com.myproject.library.repository.RoleRepository;
 import com.myproject.library.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,7 @@ import java.util.List;
 public class UserService {
     UserRepository userRepository;
     UserMapper userMapper;
+    RoleRepository roleRepository;
 
     public User createUser(UserCreationRequest userCreationRequest) {
 
@@ -34,7 +37,8 @@ public class UserService {
         User user = userMapper.toUser(userCreationRequest);
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         user.setPassword(passwordEncoder.encode(userCreationRequest.getPassword()));
-
+        Role role = roleRepository.findByRoleName("USER");
+        user.setRole(role);
         return userRepository.save(user);
     }
 
@@ -56,6 +60,8 @@ public class UserService {
             throw new AppException(ErrorCode.USER_NOT_EXISTED);
         } else {
             userMapper.updateUser(user, userUpdateRequest);
+            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+            user.setPassword(passwordEncoder.encode(userUpdateRequest.getPassword()));
             UserResponse userResponse =  userMapper.toUserResponse(userRepository.save(user));
             return userResponse;
         }
@@ -67,14 +73,7 @@ public class UserService {
 
         List<UserResponse> userResponses = new ArrayList<>();
         for(User user : users) {
-            UserResponse userResponse = UserResponse.builder()
-                    .id(user.getId())
-                    .username(user.getUsername())
-                    .email(user.getEmail())
-                    .address(user.getAddress())
-                    .phone(user.getPhone())
-                    .dob(user.getDob())
-                    .build();
+            UserResponse userResponse = userMapper.toUserResponse(user);
 
             userResponses.add(userResponse);
         }

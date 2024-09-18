@@ -2,7 +2,6 @@ package com.myproject.library.service;
 
 import com.myproject.library.dto.request.AuthenticationRequest;
 import com.myproject.library.dto.request.IntrospectRequest;
-import com.myproject.library.dto.request.UserCreationRequest;
 import com.myproject.library.dto.response.AuthenticationResponse;
 import com.myproject.library.dto.response.IntrospectResponse;
 import com.myproject.library.entity.User;
@@ -86,7 +85,7 @@ public class AuthenticationService {
                 .expirationTime(new Date(
                         Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
                 )) // xác định thời hạn tồn tại
-                .claim("scope", "lấy role, mà chưa làm =))")
+                .claim("scope",user.getRole().getRoleName())
                 .build();
 
         Payload payload = new Payload(jwtClaimsSet.toJSONObject()); //tao payload o dang JSONObj

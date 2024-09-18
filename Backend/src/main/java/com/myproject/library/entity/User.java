@@ -23,15 +23,13 @@ public class User {
     String username;
     String password;
 
-    @Column(name = "decryptedpasword")
-    String decryptedpassword;
-
     String email;
     String address;
     String phone;
 
     LocalDate dob;
 
-    @ManyToMany
-    Set<Role> roles;
+    @ManyToOne
+    @JoinColumn(name = "roleID", nullable = false)
+    private Role role;
 }

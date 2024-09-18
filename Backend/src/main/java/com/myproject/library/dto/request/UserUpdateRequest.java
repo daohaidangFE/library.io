@@ -19,9 +19,6 @@ public class UserUpdateRequest {
     @Size(min = 8, message = "PASSWORD_INVALID")
     String password;
 
-    @Column(name = "decryptedpasword")
-    String decryptedpassword;
-
     String email;
     String address;
     String phone;
