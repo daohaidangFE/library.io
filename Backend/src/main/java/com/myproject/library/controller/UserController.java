@@ -36,10 +36,6 @@ public class UserController {
 
     @GetMapping("")
     public ApiResponse<List<UserResponse>> getAllUsers() {
-        var authetication = SecurityContextHolder.getContext().getAuthentication();
-
-        log.info("usrname : {}", authetication.getName());
-        log.info("role : {}", authetication.getAuthorities());
 
         ApiResponse<List<UserResponse>> apiResponse = new ApiResponse<>();
         apiResponse.setResult(userService.getAllUsers());

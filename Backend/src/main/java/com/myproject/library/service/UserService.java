@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -37,8 +38,6 @@ public class UserService {
         User user = userMapper.toUser(userCreationRequest);
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         user.setPassword(passwordEncoder.encode(userCreationRequest.getPassword()));
-        Role role = roleRepository.findByRoleName("USER");
-        user.setRole(role);
         return userRepository.save(user);
     }
 
@@ -62,6 +61,10 @@ public class UserService {
             userMapper.updateUser(user, userUpdateRequest);
             PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
             user.setPassword(passwordEncoder.encode(userUpdateRequest.getPassword()));
+
+            var roles = roleRepository.findAllById(userUpdateRequest.getRoles());
+            user.setRoles(new HashSet<>(roles));
+
             UserResponse userResponse =  userMapper.toUserResponse(userRepository.save(user));
             return userResponse;
         }

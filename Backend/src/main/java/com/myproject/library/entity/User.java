@@ -29,7 +29,7 @@ public class User {
 
     LocalDate dob;
 
-    @ManyToOne
-    @JoinColumn(name = "roleID", nullable = false)
-    private Role role;
+    @ManyToMany
+    Set<Role> roles;
+
 }
