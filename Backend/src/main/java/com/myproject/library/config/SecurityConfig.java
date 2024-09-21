@@ -1,6 +1,7 @@
 package com.myproject.library.config;
 
 import com.myproject.library.entity.Role;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,10 +26,10 @@ import javax.crypto.spec.SecretKeySpec;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final String[] PUBLIC_ENDPOINTS = {"/library/user","/auth/token", "/auth/introspect" };
+    private final String[] PUBLIC_ENDPOINTS = {"/library/user","/library/auth/token", "/library/auth/introspect" , "/library/auth/logout"};
 
-    @Value("${jwt.signerKey}")
-    private String signerKey;
+    @Autowired
+    CustomJwtDecoder customJwtDecoder;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
@@ -40,7 +41,7 @@ public class SecurityConfig {
 
         httpSecurity.oauth2ResourceServer(
                 outh2 ->
-                        outh2.jwt(jwtConfigurer -> jwtConfigurer.decoder(jwtDecoder())
+                        outh2.jwt(jwtConfigurer -> jwtConfigurer.decoder(customJwtDecoder)
                                         .jwtAuthenticationConverter(jwtAuthenticationConverter()))
         );
 
@@ -60,15 +61,6 @@ public class SecurityConfig {
         return jwtAuthenticationConverter;
     }
 
-    @Bean
-    JwtDecoder jwtDecoder() {
-        SecretKeySpec secretKeySpec = new SecretKeySpec(signerKey.getBytes(), "HS256");
-
-        return NimbusJwtDecoder
-                .withSecretKey(secretKeySpec)
-                .macAlgorithm(MacAlgorithm.HS256)
-                .build();
-    }
 
     @Bean
     PasswordEncoder passwordEncoder() {
