@@ -10,6 +10,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,10 +21,9 @@ public class UserUpdateRequest {
     @Size(min = 8, message = "PASSWORD_INVALID")
     String password;
 
-    @Column(name = "decryptedpasword")
-    String decryptedpassword;
-
     String email;
     String address;
     String phone;
+
+    Set<String> roles;
 }

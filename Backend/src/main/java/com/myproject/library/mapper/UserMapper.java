@@ -11,6 +11,9 @@ import org.mapstruct.MappingTarget;
 @Mapper(componentModel = "spring") // Khai bao de co the inject de dang
 public interface UserMapper {
     User toUser(UserCreationRequest userCreationRequest);
+
     UserResponse toUserResponse(User user);
+
+    @Mapping(target = "roles", ignore = true)
     void updateUser(@MappingTarget User user, UserUpdateRequest userUpdateRequest); // mapping tu userUpdateRequest sang user
 }

@@ -23,9 +23,6 @@ public class User {
     String username;
     String password;
 
-    @Column(name = "decryptedpasword")
-    String decryptedpassword;
-
     String email;
     String address;
     String phone;
@@ -34,4 +31,5 @@ public class User {
 
     @ManyToMany
     Set<Role> roles;
+
 }
