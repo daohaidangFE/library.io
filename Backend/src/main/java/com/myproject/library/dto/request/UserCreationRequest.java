@@ -2,6 +2,7 @@ package com.myproject.library.dto.request;
 
 
 import com.myproject.library.entity.Role;
+import com.myproject.library.validator.DobConstraint;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,6 +12,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -30,8 +32,8 @@ public class UserCreationRequest {
     String address;
     String phone;
 
-    @Builder.Default
-    LocalDate dob = LocalDate.now();
+    @DobConstraint(min = 15, message = "INVALID_DOB")
+    LocalDate dob;
 
     String role;
 }
