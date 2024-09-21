@@ -47,7 +47,6 @@ public class UserService {
             throw new AppException(ErrorCode.USER_NOT_EXISTED);
         } else {
             UserResponse userResponse = userMapper.toUserResponse(user);
-            userResponse.setDob(user.getDob());
             return userResponse;
         }
     }
