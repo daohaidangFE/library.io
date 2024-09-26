@@ -1,10 +1,10 @@
 package com.myproject.library.repository;
 
-import com.myproject.library.entity.Permission;
+
+import com.myproject.library.entity.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PermissionRepository extends JpaRepository<Permission, String> {
-
+public interface BookRepository extends JpaRepository<Book, Long> {
 }

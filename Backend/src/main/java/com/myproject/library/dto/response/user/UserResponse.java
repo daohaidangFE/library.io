@@ -1,11 +1,10 @@
-package com.myproject.library.dto.response;
+package com.myproject.library.dto.response.user;
 
 import com.myproject.library.entity.Role;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.Set;
 
 @Data

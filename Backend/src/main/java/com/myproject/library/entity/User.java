@@ -1,7 +1,6 @@
 package com.myproject.library.entity;
 
 
-import com.myproject.library.validator.DobConstraint;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -29,7 +28,7 @@ public class User {
     String address;
     String phone;
 
-    @DobConstraint(min = 15, message = "INVALID_DOB")
+//    @DobConstraint(min = 15, message = "INVALID_DOB")
     LocalDate dob;
 
     @ManyToMany

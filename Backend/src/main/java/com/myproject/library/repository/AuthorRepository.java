@@ -1,9 +1,11 @@
 package com.myproject.library.repository;
 
-import com.myproject.library.entity.InvalidatedToken;
+
+import com.myproject.library.entity.Author;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface InvalidatedTokenRepository extends JpaRepository<InvalidatedToken, String> {
+public interface AuthorRepository extends JpaRepository<Author, Long> {
+
 }

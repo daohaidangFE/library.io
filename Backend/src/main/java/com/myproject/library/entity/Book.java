@@ -1,54 +1,54 @@
 package com.myproject.library.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    Long id;
 
     @ManyToOne
     @JoinColumn(name = "author_id")
-    private Author author;
+    Author author;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
+    @ManyToMany
+    Set<Category> categorys;
 
-    private String title;
-    private String date_publication;
-    private String description;
+    String title;
+    String date_publication;
+    String description;
 
     @Transient  //no saved to database
-    private MultipartFile fileData;
+    MultipartFile fileData;
 
     @Transient
-    private boolean newBook;
+    boolean newBook;
 
     @OneToMany(mappedBy = "book")
     @ToString.Exclude
-    private Collection<OrderDetail> orderDetailList;
+    Collection<OrderDetail> orderDetailList;
 
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
     @ToString.Exclude
-    private Collection<Comment> commentList;
+    Collection<Comment> commentList;
 
-    private float price;
-    private Long number_page;
-    private Long number_sold;
-    private Long number_in_stock; //number of books in stock
-    private Date created_at;
-    private Date updated_at;
+    float price;
+    Long number_page;
+    Long number_sold;
+    Long number_in_stock; //number of books in stock
+    Date created_at;
+    Date updated_at;
 }

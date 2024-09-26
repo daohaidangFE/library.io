@@ -1,15 +1,14 @@
-package com.myproject.library.service;
+package com.myproject.library.service.impl;
 
-import com.myproject.library.dto.request.UserCreationRequest;
-import com.myproject.library.dto.request.UserUpdateRequest;
-import com.myproject.library.dto.response.UserResponse;
-import com.myproject.library.entity.Role;
+import com.myproject.library.dto.request.user.UserCreationRequest;
+import com.myproject.library.dto.request.user.UserUpdateRequest;
+import com.myproject.library.dto.response.user.UserResponse;
 import com.myproject.library.entity.User;
 import com.myproject.library.exception.AppException;
 import com.myproject.library.exception.ErrorCode;
 import com.myproject.library.mapper.UserMapper;
-import com.myproject.library.repository.RoleRepository;
 import com.myproject.library.repository.UserRepository;
+import com.myproject.library.service.IUserService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -18,17 +17,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class UserService {
+public class UserService implements IUserService {
     UserRepository userRepository;
     UserMapper userMapper;
-    RoleRepository roleRepository;
 
+    @Override
     public User createUser(UserCreationRequest userCreationRequest) {
 
         if(userRepository.existsByUsername(userCreationRequest.getUsername())) {
@@ -41,6 +39,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    @Override
     public UserResponse getUser(Long id) {
         User user = userRepository.findById(id).orElse(null);
         if(user == null) {
@@ -51,6 +50,7 @@ public class UserService {
         }
     }
 
+    @Override
     public UserResponse updateUser(Long id, UserUpdateRequest userUpdateRequest) {
         User user = userRepository.findById(id).orElse(null);
 
@@ -60,16 +60,13 @@ public class UserService {
             userMapper.updateUser(user, userUpdateRequest);
             PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
             user.setPassword(passwordEncoder.encode(userUpdateRequest.getPassword()));
-
-            var roles = roleRepository.findAllById(userUpdateRequest.getRoles());
-            user.setRoles(new HashSet<>(roles));
-
             UserResponse userResponse =  userMapper.toUserResponse(userRepository.save(user));
             return userResponse;
         }
 
     }
 
+    @Override
     public List<UserResponse> getAllUsers() {
         List<User> users = userRepository.findAll();
 
@@ -82,6 +79,7 @@ public class UserService {
         return userResponses;
     }
 
+    @Override
     public void deleteUser(Long id) {
         if(!userRepository.existsById(id)) {
             throw new AppException(ErrorCode.USER_NOT_EXISTED);

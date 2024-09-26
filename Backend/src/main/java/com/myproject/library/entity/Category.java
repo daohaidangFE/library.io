@@ -8,6 +8,7 @@ import lombok.ToString;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Data
@@ -18,10 +19,6 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-
-    @OneToMany(mappedBy = "category")
-    @ToString.Exclude
-    private Collection<Book> bookList;
 
     private Date created_at;
     private Date updated_at;

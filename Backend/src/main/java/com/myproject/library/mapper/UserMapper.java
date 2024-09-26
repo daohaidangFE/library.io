@@ -1,8 +1,8 @@
 package com.myproject.library.mapper;
 
-import com.myproject.library.dto.request.UserCreationRequest;
-import com.myproject.library.dto.request.UserUpdateRequest;
-import com.myproject.library.dto.response.UserResponse;
+import com.myproject.library.dto.request.user.UserCreationRequest;
+import com.myproject.library.dto.request.user.UserUpdateRequest;
+import com.myproject.library.dto.response.user.UserResponse;
 import com.myproject.library.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

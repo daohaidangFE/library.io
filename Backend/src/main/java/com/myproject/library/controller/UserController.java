@@ -1,19 +1,17 @@
 package com.myproject.library.controller;
 
 
-import com.myproject.library.dto.request.UserCreationRequest;
-import com.myproject.library.dto.request.UserUpdateRequest;
-import com.myproject.library.dto.response.UserResponse;
+import com.myproject.library.dto.request.user.UserCreationRequest;
+import com.myproject.library.dto.request.user.UserUpdateRequest;
+import com.myproject.library.dto.response.user.UserResponse;
 import com.myproject.library.entity.User;
 import com.myproject.library.dto.response.ApiResponse;
-import com.myproject.library.service.UserService;
-import jakarta.validation.Valid;
+import com.myproject.library.service.impl.UserService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,7 +25,7 @@ public class UserController {
     UserService userService;
 
     @PostMapping("")
-    public ApiResponse<User> createUser(@RequestBody @Valid UserCreationRequest userCreationRequest) {
+    public ApiResponse<User> createUser(@RequestBody UserCreationRequest userCreationRequest) {
         ApiResponse apiResponse = new ApiResponse<>();
         apiResponse.setResult(userService.createUser(userCreationRequest));
 
@@ -51,7 +49,7 @@ public class UserController {
     }
 
     @PutMapping("/{userId}")
-    public ApiResponse<User> updateUser(@PathVariable Long userId,@RequestBody @Valid UserUpdateRequest userUpdateRequest) {
+    public ApiResponse<User> updateUser(@PathVariable Long userId,@RequestBody UserUpdateRequest userUpdateRequest) {
         ApiResponse apiResponse = new ApiResponse<>();
         apiResponse.setResult(userService.updateUser(userId, userUpdateRequest));
         return apiResponse;
