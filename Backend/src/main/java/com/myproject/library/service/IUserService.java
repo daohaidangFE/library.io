@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface IUserService {
 
-    User createUser(UserCreationRequest userCreationRequest);
+    UserResponse createUser(UserCreationRequest userCreationRequest);
 
     UserResponse getUser(Long id);
 

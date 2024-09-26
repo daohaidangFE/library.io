@@ -27,7 +27,7 @@ public class UserService implements IUserService {
     UserMapper userMapper;
 
     @Override
-    public User createUser(UserCreationRequest userCreationRequest) {
+    public UserResponse createUser(UserCreationRequest userCreationRequest) {
 
         if(userRepository.existsByUsername(userCreationRequest.getUsername())) {
             throw new AppException(ErrorCode.USER_EXISTED);
@@ -36,7 +36,7 @@ public class UserService implements IUserService {
         User user = userMapper.toUser(userCreationRequest);
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         user.setPassword(passwordEncoder.encode(userCreationRequest.getPassword()));
-        return userRepository.save(user);
+        return userMapper.toUserResponse(userRepository.save(user));
     }
 
     @Override

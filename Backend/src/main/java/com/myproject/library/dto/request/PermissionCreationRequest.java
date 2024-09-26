@@ -1,18 +1,15 @@
-package com.myproject.library.entity;
+package com.myproject.library.dto.request;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Permission {
-    @Id
+@Builder
+public class PermissionCreationRequest {
     String name;
     String description;
 }

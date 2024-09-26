@@ -16,6 +16,7 @@ public enum ErrorCode {
     PASSWORD_INVALID(1005, "password must be at least 8 character"),
     UNAUTHORIZED_EXCEPTION(1006, "Unauthorized Exception"),
     INVALID_DOB(1007, "Invalid Date of Birth"),
+    PERMISSION_NOT_EXISTED(1008, "Permission not existed"),
     ;
 
     private int code;
