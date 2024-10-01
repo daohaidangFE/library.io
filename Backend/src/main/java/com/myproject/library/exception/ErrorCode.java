@@ -17,6 +17,9 @@ public enum ErrorCode {
     UNAUTHORIZED_EXCEPTION(1006, "Unauthorized Exception"),
     INVALID_DOB(1007, "Invalid Date of Birth"),
     PERMISSION_NOT_EXISTED(1008, "Permission not existed"),
+    PERMISSION_EXISTED(1009, "Permission already existed"),
+    ROLE_NOT_EXISTED(1010, "Role not existed"),
+    ROLE_EXISTED(1011, "Role already existed"),
     ;
 
     private int code;

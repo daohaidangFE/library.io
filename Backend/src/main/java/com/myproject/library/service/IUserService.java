@@ -2,8 +2,7 @@ package com.myproject.library.service;
 
 import com.myproject.library.dto.request.user.UserCreationRequest;
 import com.myproject.library.dto.request.user.UserUpdateRequest;
-import com.myproject.library.dto.response.user.UserResponse;
-import com.myproject.library.entity.User;
+import com.myproject.library.dto.response.UserResponse;
 
 import java.util.List;
 

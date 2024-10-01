@@ -1,4 +1,4 @@
-package com.myproject.library.dto.response.user;
+package com.myproject.library.dto.response;
 
 import com.myproject.library.entity.Role;
 import lombok.*;
@@ -19,5 +19,5 @@ public class UserResponse {
     String address;
     String phone;
     LocalDate dob;
-    Set<Role> roles;
+    Role role;
 }

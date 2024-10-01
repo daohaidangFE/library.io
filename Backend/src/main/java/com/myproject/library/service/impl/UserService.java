@@ -2,11 +2,13 @@ package com.myproject.library.service.impl;
 
 import com.myproject.library.dto.request.user.UserCreationRequest;
 import com.myproject.library.dto.request.user.UserUpdateRequest;
-import com.myproject.library.dto.response.user.UserResponse;
+import com.myproject.library.dto.response.UserResponse;
+import com.myproject.library.entity.Role;
 import com.myproject.library.entity.User;
 import com.myproject.library.exception.AppException;
 import com.myproject.library.exception.ErrorCode;
 import com.myproject.library.mapper.UserMapper;
+import com.myproject.library.repository.RoleRepository;
 import com.myproject.library.repository.UserRepository;
 import com.myproject.library.service.IUserService;
 import lombok.AccessLevel;
@@ -25,6 +27,7 @@ import java.util.List;
 public class UserService implements IUserService {
     UserRepository userRepository;
     UserMapper userMapper;
+    RoleRepository roleRepository;
 
     @Override
     public UserResponse createUser(UserCreationRequest userCreationRequest) {
@@ -36,6 +39,8 @@ public class UserService implements IUserService {
         User user = userMapper.toUser(userCreationRequest);
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         user.setPassword(passwordEncoder.encode(userCreationRequest.getPassword()));
+        Role role = roleRepository.findById("ROLE_USER").get();
+        user.setRole(role);
         return userMapper.toUserResponse(userRepository.save(user));
     }
 

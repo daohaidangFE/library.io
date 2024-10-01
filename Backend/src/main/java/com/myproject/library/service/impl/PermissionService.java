@@ -1,7 +1,7 @@
 package com.myproject.library.service.impl;
 
 
-import com.myproject.library.dto.request.PermissionCreationRequest;
+import com.myproject.library.dto.request.PermissionRequest;
 import com.myproject.library.dto.response.PermissionResponse;
 import com.myproject.library.entity.Permission;
 import com.myproject.library.exception.AppException;
@@ -27,9 +27,13 @@ public class PermissionService implements IPermissionService {
 
 
     @Override
-    public PermissionResponse createPermission(PermissionCreationRequest permissionCreationRequest) {
-        Permission permission = permissionMapper.toPermission(permissionCreationRequest);
-        return permissionMapper.toPermissionResponse(permissionRepository.save(permission));
+    public PermissionResponse createPermission(PermissionRequest permissionRequest) {
+        if(permissionRepository.existsById(permissionRequest.getName())) {
+            throw new AppException(ErrorCode.PERMISSION_EXISTED);
+        } else {
+            Permission permission = permissionMapper.toPermission(permissionRequest);
+            return permissionMapper.toPermissionResponse(permissionRepository.save(permission));
+        }
     }
 
     @Override
@@ -42,6 +46,27 @@ public class PermissionService implements IPermissionService {
             permissionResponses.add(permissionResponse);
         }
         return permissionResponses;
+    }
+
+    @Override
+    public PermissionResponse getPermission(String permissionId) {
+        Permission permission = permissionRepository.findById(permissionId).orElse(null);
+        if(permission == null) {
+            throw  new AppException(ErrorCode.PERMISSION_NOT_EXISTED);
+        } else {
+            return permissionMapper.toPermissionResponse(permission);
+        }
+    }
+
+    @Override
+    public PermissionResponse updatePermission(String permissionId, PermissionRequest permissionUpdateRequest) {
+        Permission permission = permissionRepository.findById(permissionId).orElse(null);
+        if(permission == null) {
+            throw  new AppException(ErrorCode.PERMISSION_NOT_EXISTED);
+        } else {
+            permissionMapper.updatePermission(permission, permissionUpdateRequest);
+            return permissionMapper.toPermissionResponse(permission);
+        }
     }
 
     @Override

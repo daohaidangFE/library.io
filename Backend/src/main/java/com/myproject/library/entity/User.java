@@ -31,7 +31,8 @@ public class User {
 //    @DobConstraint(min = 15, message = "INVALID_DOB")
     LocalDate dob;
 
-    @ManyToMany
-    Set<Role> roles;
+    @ManyToOne
+    @JoinColumn(name = "roleID", nullable = false)
+    Role role;
 
 }

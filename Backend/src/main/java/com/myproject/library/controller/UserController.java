@@ -3,7 +3,7 @@ package com.myproject.library.controller;
 
 import com.myproject.library.dto.request.user.UserCreationRequest;
 import com.myproject.library.dto.request.user.UserUpdateRequest;
-import com.myproject.library.dto.response.user.UserResponse;
+import com.myproject.library.dto.response.UserResponse;
 import com.myproject.library.entity.User;
 import com.myproject.library.dto.response.ApiResponse;
 import com.myproject.library.service.impl.UserService;
@@ -56,8 +56,8 @@ public class UserController {
     }
 
     @DeleteMapping("/{userId}")
-    public ApiResponse<String> deleteUser(@PathVariable Long userId) {
+    public ApiResponse<Void> deleteUser(@PathVariable Long userId) {
         userService.deleteUser(userId);
-        return ApiResponse.<String>builder().code(1000).result("User has been deleted").build();
+        return ApiResponse.<Void>builder().build();
     }
 }

@@ -1,6 +1,6 @@
 package com.myproject.library.controller;
 
-import com.myproject.library.dto.request.PermissionCreationRequest;
+import com.myproject.library.dto.request.PermissionRequest;
 import com.myproject.library.dto.response.ApiResponse;
 import com.myproject.library.dto.response.PermissionResponse;
 import com.myproject.library.service.impl.PermissionService;
@@ -21,9 +21,9 @@ public class PermissionController {
     PermissionService permissionService;
 
     @PostMapping("")
-    public ApiResponse<PermissionResponse> create(@RequestBody PermissionCreationRequest permissionCreationRequest) {
+    public ApiResponse<PermissionResponse> create(@RequestBody PermissionRequest permissionRequest) {
         return ApiResponse.<PermissionResponse>builder()
-                .result(permissionService.createPermission(permissionCreationRequest))
+                .result(permissionService.createPermission(permissionRequest))
                 .build();
     }
 
@@ -31,6 +31,13 @@ public class PermissionController {
     public ApiResponse<List<PermissionResponse>> getAllPermissions() {
         return ApiResponse.<List<PermissionResponse>>builder()
                 .result(permissionService.getAllPermissions())
+                .build();
+    }
+
+    @GetMapping("/{permissionId}")
+    public ApiResponse<PermissionResponse> getPermissionById(@PathVariable String permissionId) {
+        return ApiResponse.<PermissionResponse>builder()
+                .result(permissionService.getPermission(permissionId))
                 .build();
     }
 
