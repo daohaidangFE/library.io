@@ -26,6 +26,7 @@ public class PermissionService implements IPermissionService {
     PermissionMapper permissionMapper;
 
 
+
     @Override
     public PermissionResponse createPermission(PermissionRequest permissionRequest) {
         if(permissionRepository.existsById(permissionRequest.getName())) {
@@ -69,12 +70,4 @@ public class PermissionService implements IPermissionService {
         }
     }
 
-    @Override
-    public void deletePermission(String name) {
-        if(!permissionRepository.existsById(name)) {
-            throw new AppException(ErrorCode.PERMISSION_NOT_EXISTED);
-        } else {
-            permissionRepository.deleteById(name);
-        }
-    }
 }

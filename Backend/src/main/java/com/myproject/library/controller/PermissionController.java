@@ -4,6 +4,7 @@ import com.myproject.library.dto.request.PermissionRequest;
 import com.myproject.library.dto.response.ApiResponse;
 import com.myproject.library.dto.response.PermissionResponse;
 import com.myproject.library.service.impl.PermissionService;
+import com.myproject.library.service.impl.RoleService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -19,6 +20,7 @@ import java.util.List;
 @Slf4j
 public class PermissionController {
     PermissionService permissionService;
+    RoleService roleService;
 
     @PostMapping("")
     public ApiResponse<PermissionResponse> create(@RequestBody PermissionRequest permissionRequest) {
@@ -43,7 +45,7 @@ public class PermissionController {
 
     @DeleteMapping("/{permissionName}")
     public ApiResponse<Void> delete(@PathVariable String permissionName) {
-        permissionService.deletePermission(permissionName);
+        roleService.deletePermission(permissionName);
         return ApiResponse.<Void>builder().build();
     }
 }

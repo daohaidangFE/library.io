@@ -2,6 +2,7 @@ package com.myproject.library.service.impl;
 
 import com.myproject.library.dto.request.RoleRequest;
 import com.myproject.library.dto.response.RoleResponse;
+import com.myproject.library.entity.Permission;
 import com.myproject.library.entity.Role;
 import com.myproject.library.exception.AppException;
 import com.myproject.library.exception.ErrorCode;
@@ -67,6 +68,27 @@ public class RoleService implements IRoleService {
         } else {
             roleRepository.deleteById(roleId);
         }
+    }
+
+    @Override
+    public void removePermissionFromRoles(String permissionId) {
+        Permission permission = permissionRepository.findById(permissionId).orElse(null);
+        if(permission == null) {
+            throw new AppException(ErrorCode.PERMISSION_NOT_EXISTED);
+        } else {
+            for(Role role: roleRepository.findAll()) {
+                if(role.getPermissions().contains(permission)) {
+                    role.getPermissions().remove(permission);
+                    roleRepository.save(role);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void deletePermission(String permissionId) {
+        removePermissionFromRoles(permissionId);
+        permissionRepository.deleteById(permissionId);
     }
 
 

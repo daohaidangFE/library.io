@@ -13,4 +13,8 @@ public interface IRoleService {
     List<RoleResponse> getAllRoles();
 
     void deleteRole(String roleId);
+
+    void removePermissionFromRoles(String permissionId);
+
+    void deletePermission(String permissionId);
 }

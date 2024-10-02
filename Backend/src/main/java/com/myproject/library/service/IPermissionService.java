@@ -14,5 +14,4 @@ public interface IPermissionService {
 
     PermissionResponse updatePermission(String permissionId, PermissionRequest permissionUpdateRequest);
 
-    void deletePermission(String name);
 }
